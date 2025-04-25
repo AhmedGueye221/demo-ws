@@ -1,4 +1,4 @@
-package sn.courwebservice.demo_ws.models;
+ package sn.courwebservice.demo_ws.models;
 
 import java.util.List;
 
