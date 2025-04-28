@@ -1,17 +1,18 @@
 package sn.courwebservice.demo_ws.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import sn.courwebservice.demo_ws.models.Reservation;
 import sn.courwebservice.demo_ws.repository.ReservationRepository;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/reservations")
 public class ReservationController {
 
-    @Autowired
+   
     private ReservationRepository reservationRepository;
 
     // GET /reservations/{id}
