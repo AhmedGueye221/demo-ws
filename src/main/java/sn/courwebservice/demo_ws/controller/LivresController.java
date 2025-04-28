@@ -30,4 +30,9 @@ public class LivresController {
     public Livres getLivreById(@PathVariable Long id) {
         return livreRepository.findById(id).orElse(null);
     }
+
+    @GetMapping("/disponibles")
+    public List<Livres> getLivresDisponibles() {
+        return livreRepository.findByDisponibleTrue();
+    }
 }
