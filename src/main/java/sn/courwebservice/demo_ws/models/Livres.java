@@ -1,11 +1,14 @@
- package sn.courwebservice.demo_ws.models;
+package sn.courwebservice.demo_ws.models;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 
 @Entity
 public class Livres {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,10 +22,13 @@ public class Livres {
     private boolean disponible;
 
     @OneToMany(mappedBy = "livre")
+    @JsonManagedReference("livre-reservation")
     private List<Reservation> reservations;
 
     @OneToMany(mappedBy = "livre")
     private List<Emprunt> emprunts;
+
+    // Getters et setters
 
     public Long getId() {
         return id;
@@ -79,5 +85,4 @@ public class Livres {
     public void setEmprunts(List<Emprunt> emprunts) {
         this.emprunts = emprunts;
     }
-    
 }

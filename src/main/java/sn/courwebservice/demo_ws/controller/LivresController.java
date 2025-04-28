@@ -1,53 +1,35 @@
 package sn.courwebservice.demo_ws.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import sn.courwebservice.demo_ws.models.Livres;
 import sn.courwebservice.demo_ws.repository.LivreRepository;
 
-
+import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/livres")
+@RequestMapping("/livres")
 public class LivresController {
 
-    
-    final LivreRepository livreRepository ;
+    @Autowired
+    private LivreRepository livreRepository;
 
-    public LivresController(LivreRepository livreRepository) {
-        this.livreRepository = livreRepository;
-    }
-
-     @GetMapping("/disponibles")
-    public List<Livres> getLivresDisponibles() {
-        return livreRepository.findAvailableLivres();
-    }
+    // GET /livres : liste de tous les livres
     @GetMapping
     public List<Livres> getAllLivres() {
         return livreRepository.findAll();
     }
 
+    // GET /livres/{id} : détails d'un livre
     @GetMapping("/{id}")
     public Livres getLivreById(@PathVariable Long id) {
         return livreRepository.findById(id).orElse(null);
     }
-    @PostMapping
-    public ResponseEntity<Livres> createLivre(@RequestBody Livres livre) {
-    Livres savedLivre = livreRepository.save(livre);
-    return ResponseEntity.ok(savedLivre);
-}
 
-
-    public ResponseEntity<Livres> addLivre(@RequestBody Livres livre) {
-    Livres savedLivre = livreRepository.save(livre);
-    return ResponseEntity.ok(savedLivre);
-}
+    // GET /livres/disponibles : livres disponibles
+    @GetMapping("/disponibles")
+    public List<Livres> getLivresDisponibles() {
+        return livreRepository.findByDisponibleTrue();
+    }
 }

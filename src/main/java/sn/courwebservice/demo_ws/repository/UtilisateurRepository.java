@@ -7,3 +7,4 @@ import sn.courwebservice.demo_ws.models.Utilisateurs;
 public interface UtilisateurRepository extends JpaRepository<Utilisateurs, Long> {
     
 }
+

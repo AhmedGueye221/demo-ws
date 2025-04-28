@@ -2,10 +2,13 @@ package sn.courwebservice.demo_ws.models;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 
 @Entity
 public class Reservation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,12 +17,25 @@ public class Reservation {
 
     private LocalDate dateFin;
 
-    @ManyToOne
-    private Utilisateurs utilisateur;
+    //@ManyToOne
+    //@JsonBackReference("utilisateur-reservation")
+    //private Utilisateurs utilisateur;
+
+    //@ManyToOne
+    //@JsonBackReference("livre-reservation")
+    //private Livres livre;
 
     @ManyToOne
-    private Livres livre;
-    
+@JsonIgnoreProperties("reservations") // ignore la collection dans l'objet utilisateur pour éviter boucle
+private Utilisateurs utilisateur;
+
+@ManyToOne
+@JsonIgnoreProperties("reservations") // idem pour livre
+private Livres livre;
+
+
+    // Getters et setters
+
     public Long getId() {
         return id;
     }
@@ -59,6 +75,4 @@ public class Reservation {
     public void setLivre(Livres livre) {
         this.livre = livre;
     }
-
-    
 }
