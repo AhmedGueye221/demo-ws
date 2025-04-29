@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://courwebservice.sn/demo-ws"
+           targetNamespace="http://courwebservice.sn/demo-ws"
+           elementFormDefault="qualified">
+
+    <!-- Type de base pour un livre -->
+    <xs:complexType name="livre">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="titre" type="xs:string"/>
+            <xs:element name="auteur" type="xs:string"/>
+            <xs:element name="isbn" type="xs:string"/>
+            <xs:element name="disponible" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Opérations SOAP requises -->
+    
+    <!-- 1. Ajouter Livre -->
+    <xs:element name="ajouterLivreRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="livre" type="tns:livre"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ajouterLivreResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="livre" type="tns:livre"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- 2. Modifier Livre -->
+    <xs:element name="modifierLivreRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="livre" type="tns:livre"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="modifierLivreResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="livre" type="tns:livre"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- 3. Supprimer Livre -->
+    <xs:element name="supprimerLivreRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="supprimerLivreResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="success" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- 4. Prêter Livre -->
+    <xs:element name="preterLivreRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="userId" type="xs:long"/>
+                <xs:element name="livreId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="preterLivreResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="success" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- 5. Retourner Livre -->
+    <xs:element name="retournerLivreRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="userId" type="xs:long"/>
+                <xs:element name="livreId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="retournerLivreResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="success" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
