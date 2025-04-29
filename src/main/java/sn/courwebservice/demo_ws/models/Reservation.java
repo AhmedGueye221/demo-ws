@@ -1,9 +1,7 @@
 package sn.courwebservice.demo_ws.models;
 
 import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -14,28 +12,21 @@ public class Reservation {
     private Long id;
 
     private LocalDate dateDebut;
-
     private LocalDate dateFin;
 
-    //@ManyToOne
-    //@JsonBackReference("utilisateur-reservation")
-    //private Utilisateurs utilisateur;
-
-    //@ManyToOne
-    //@JsonBackReference("livre-reservation")
-    //private Livres livre;
+    @ManyToOne
+    @JsonIgnoreProperties("reservations") 
+    private Utilisateurs utilisateur;
 
     @ManyToOne
-@JsonIgnoreProperties("reservations") // ignore la collection dans l'objet utilisateur pour éviter boucle
-private Utilisateurs utilisateur;
+    @JsonIgnoreProperties("reservations")
+    private Livres livre;
 
-@ManyToOne
-@JsonIgnoreProperties("reservations") // idem pour livre
-private Livres livre;
-
+    // Constructeur sans argument
+    public Reservation() {
+    }
 
     // Getters et setters
-
     public Long getId() {
         return id;
     }

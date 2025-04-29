@@ -1,9 +1,7 @@
 package sn.courwebservice.demo_ws.models;
 
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,17 +12,18 @@ public class Utilisateurs {
     private Long id;
 
     private String nom;
-
     private String email;
-
     private String role;
 
     @OneToMany(mappedBy = "utilisateur")
-    @JsonManagedReference("utilisateur-reservation")
+    @JsonIgnoreProperties("utilisateur")
     private List<Reservation> reservations;
 
-    // Getters et setters
+    // Constructeur sans argument
+    public Utilisateurs() {
+    }
 
+    // Getters et setters
     public Long getId() {
         return id;
     }

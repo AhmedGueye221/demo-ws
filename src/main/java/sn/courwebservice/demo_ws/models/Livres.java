@@ -1,35 +1,39 @@
 package sn.courwebservice.demo_ws.models;
 
+import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import jakarta.persistence.*;
-
 @Entity
+@Table(name = "livres")
 public class Livres {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String titre;
 
+    @Column(nullable = false)
     private String auteur;
 
+    @Column(unique = true)
     private String isbn;
 
-    private boolean disponible;
+    @Column(nullable = false)
+    private boolean disponible = true;
 
-    @OneToMany(mappedBy = "livre")
-    @JsonManagedReference("livre-reservation")
-    private List<Reservation> reservations;
+    @OneToMany(mappedBy = "livre", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("livre")
+    private List<Reservation> reservations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "livre")
-    private List<Emprunt> emprunts;
+    // Constructeur sans argument
+    public Livres() {
+    }
 
     // Getters et setters
-
     public Long getId() {
         return id;
     }
@@ -78,11 +82,14 @@ public class Livres {
         this.reservations = reservations;
     }
 
-    public List<Emprunt> getEmprunts() {
-        return emprunts;
-    }
-
-    public void setEmprunts(List<Emprunt> emprunts) {
-        this.emprunts = emprunts;
+    @Override
+    public String toString() {
+        return "Livre{" +
+                "id=" + id +
+                ", titre='" + titre + '\'' +
+                ", auteur='" + auteur + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", disponible=" + disponible +
+                '}';
     }
 }
