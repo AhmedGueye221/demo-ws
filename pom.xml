@@ -23,6 +23,8 @@
     </properties>
 
     <dependencies>
+   
+
         <!-- Actuator (optionnel) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
