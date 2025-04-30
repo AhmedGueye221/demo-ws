@@ -1,48 +1,39 @@
 package sn.courwebservice.demo_ws.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sn.courwebservice.demo_ws.dto.ReservationRequest;
 import sn.courwebservice.demo_ws.models.Reservation;
-import sn.courwebservice.demo_ws.repository.ReservationRepository;
-
+import sn.courwebservice.demo_ws.service.ReservationService;
+import java.util.Map;
 
 @RestController
-//@RequestMapping(value = "/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
-@RequestMapping("/reservations")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/reservations")
 public class ReservationController {
 
-    private final ReservationRepository reservationRepository;
-
     @Autowired
-    public ReservationController(ReservationRepository reservationRepository) {
-        this.reservationRepository = reservationRepository;
+    private ReservationService reservationService;
+
+    @PostMapping
+    public ResponseEntity<?> createReservation(@RequestBody ReservationRequest request) {
+        try {
+            Reservation reservation = reservationService.createReservation(request);
+            return ResponseEntity.ok(reservation);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                .body(Map.of("error", e.getMessage()));
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Reservation> getReservationById(@PathVariable Long id) {
-        return reservationRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> getReservation(@PathVariable Long id) {
+        try {
+            Reservation reservation = reservationService.getReservation(id);
+            return ResponseEntity.ok(reservation);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                .body(Map.of("error", e.getMessage()));
+        }
     }
-
-  
-@PostMapping(consumes = "application/json", produces = "application/json")
-public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation){
-    try {
-        Reservation savedReservation = reservationRepository.save(reservation);
-        return ResponseEntity.ok(savedReservation);
-    } catch (Exception e) {
-        return ResponseEntity.badRequest().build();
-    }
-}
-
-   @PostMapping(value = "/test", consumes = "application/json")
-    public ResponseEntity<String> testJson(@RequestBody Map<String, Object> payload) {
-        return ResponseEntity.ok("Payload reçu : " + payload.toString());
-    }
-
 }
