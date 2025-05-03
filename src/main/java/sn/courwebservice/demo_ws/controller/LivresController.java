@@ -1,36 +1,37 @@
 package sn.courwebservice.demo_ws.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sn.courwebservice.demo_ws.models.Livres;
-import sn.courwebservice.demo_ws.repository.LivreRepository;
+import sn.courwebservice.demo_ws.dto.LivresDTO;
+import sn.courwebservice.demo_ws.service.LivresServiceImpl;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/livres")
+@RequestMapping("/api/livres")
 public class LivresController {
 
-    private final LivreRepository livreRepository;
+    private final LivresServiceImpl livresService;
 
-    @Autowired
-    public LivresController(LivreRepository livreRepository) {
-        this.livreRepository = livreRepository;
+    public LivresController(LivresServiceImpl livresService) {
+        this.livresService = livresService;
     }
 
     @GetMapping
-    public List<Livres> getAllLivres() {
-        return livreRepository.findAll();
+    public ResponseEntity<List<LivresDTO>> getAllLivres() {
+        List<LivresDTO> livres = livresService.getAllLivres();
+        return ResponseEntity.ok(livres);
     }
 
     @GetMapping("/{id}")
-    public Livres getLivreById(@PathVariable Long id) {
-        return livreRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Livre non trouvé"));
+    public ResponseEntity<LivresDTO> getLivreById(@PathVariable Long id) {
+        LivresDTO livre = livresService.getLivreById(id);
+        return ResponseEntity.ok(livre);
     }
 
     @GetMapping("/disponibles")
-    public List<Livres> getLivresDisponibles() {
-        return livreRepository.findByDisponibleTrue();
+    public ResponseEntity<List<LivresDTO>> getLivresDisponibles() {
+        List<LivresDTO> livresDisponibles = livresService.getLivresDisponibles();
+        return ResponseEntity.ok(livresDisponibles);
     }
 }
