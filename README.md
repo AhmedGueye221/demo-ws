@@ -42,9 +42,9 @@ La documentation Swagger est disponible à:
 - http://localhost:8080/swagger-ui.html
 
 Endpoints principaux:
-- GET /livres : Liste tous les livres
-- GET /livres/{id} : Détails d'un livre
-- GET /livres/disponibles : Liste les livres disponibles
+- GET api/livres : Liste tous les livres
+- GET api/livres/{id} : Détails d'un livre
+- GET api/livres/disponibles : Liste les livres disponibles
 - POST /reservations : Créer une réservation
 - GET /reservations/{id} : Consulter une réservation
 
